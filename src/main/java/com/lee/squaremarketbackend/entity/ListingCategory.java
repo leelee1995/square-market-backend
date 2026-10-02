@@ -1,0 +1,20 @@
+package com.lee.squaremarketbackend.entity;
+
+public enum ListingCategory {
+    APPAREL_FASHION,
+    BABY_KIDS,
+    BOOKS_MEDIA,
+    COLLECTIBLES_HOBBIES,
+    ELECTRONICS,
+    HEALTH_BEAUTY,
+    HOME_GARDEN,
+    JEWELRY_ACCESSORIES,
+    MUSICAL_INSTRUMENTS,
+    OFFICE_SUPPLIES,
+    OTHER,
+    PETS,
+    SPORTS_OUTDOORS,
+    TOOLS_HARDWARE,
+    TOYS_GAMES,
+    VEHICLES
+}

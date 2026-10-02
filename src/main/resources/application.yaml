@@ -1,0 +1,25 @@
+spring:
+  application:
+    name: squaremarket-backend
+
+  flyway:
+    enabled: true
+
+  jpa:
+    open-in-view: false
+    hibernate:
+      ddl-auto: validate
+
+  jackson:
+    time-zone: UTC
+
+server:
+  port: 8080
+
+jwt:
+  expiration-ms: ${JWT_EXPIRATION_MS:86400000}
+
+cookie:
+  access-token-name: access_token
+  secure: ${COOKIE_SECURE:true}
+  same-site: ${COOKIE_SAME_SITE:None}
