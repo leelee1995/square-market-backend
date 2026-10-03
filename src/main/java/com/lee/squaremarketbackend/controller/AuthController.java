@@ -5,13 +5,16 @@ import com.lee.squaremarketbackend.dto.response.LoginResponse;
 import com.lee.squaremarketbackend.dto.response.NeighborResponse;
 import com.lee.squaremarketbackend.dto.response.RegisterResponse;
 import com.lee.squaremarketbackend.service.AuthService;
+import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.Map;
 import java.util.UUID;
 
 @RestController
@@ -93,5 +96,11 @@ public class AuthController {
     ) {
         UUID uid = UUID.fromString(auth.getName());
         return ResponseEntity.ok(authService.updateEmail(uid, request));
+    }
+
+    @GetMapping("/csrf")
+    public ResponseEntity<Map<String, String>> getCsrfToken(HttpServletRequest request) {
+        CsrfToken token = (CsrfToken) request.getAttribute(CsrfToken.class.getName());
+        return ResponseEntity.ok(Map.of("token", token.getToken()));
     }
 }
