@@ -14,7 +14,7 @@ spring:
     time-zone: UTC
 
 server:
-  port: 8080
+  port: ${PORT:8080}
 
 jwt:
   expiration-ms: ${JWT_EXPIRATION_MS:86400000}
