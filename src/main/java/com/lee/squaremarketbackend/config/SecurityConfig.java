@@ -15,7 +15,6 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
-import org.springframework.security.web.csrf.CookieCsrfTokenRepository;
 import org.springframework.security.web.csrf.CsrfTokenRequestAttributeHandler;
 
 @Configuration
@@ -36,16 +35,16 @@ public class SecurityConfig {
         CsrfTokenRequestAttributeHandler requestHandler = new CsrfTokenRequestAttributeHandler();
         requestHandler.setCsrfRequestAttributeName(null);
 
-        CookieCsrfTokenRepository csrfRepository = CookieCsrfTokenRepository.withHttpOnlyFalse();
-        csrfRepository.setCookieCustomizer(cookie -> cookie
-                .secure(cookieSecure)
-                .sameSite(cookieSameSite));
+        // Frontend (Vercel) and backend (Render) are different sites, so the
+        // XSRF-TOKEN cookie must be SameSite=None; Secure or the browser drops it.
+        CrossSiteCsrfTokenRepository csrfRepository =
+                new CrossSiteCsrfTokenRepository(cookieSecure, cookieSameSite);
 
         http
                 .cors(cors -> {
                 })
                 .csrf(csrf -> csrf
-                        .csrfTokenRepository(CookieCsrfTokenRepository.withHttpOnlyFalse())
+                        .csrfTokenRepository(csrfRepository)
                         .csrfTokenRequestHandler(requestHandler)
                         .ignoringRequestMatchers("/api/auth/login", "/api/auth/register")
                 )
